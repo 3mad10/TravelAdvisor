@@ -35,6 +35,11 @@ def get_user_by_email(*, session: Session, email: str) -> User | None:
     session_user = session.exec(statement).first()
     return session_user
 
+def get_user_by_username(*, session: Session, user_name: str) -> User | None:
+    statement = select(User).where(User.user_name == user_name)
+    session_user = session.exec(statement).first()
+    return session_user
+
 def get_user_by_id(*, session: Session, user_id: UUID) -> User | None:
     statement = select(User).where(User.id == user_id)
     session_user = session.exec(statement).first()
