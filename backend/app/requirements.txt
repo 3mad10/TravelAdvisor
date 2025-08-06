@@ -1,8 +1,8 @@
 # Core Web Framework
 fastapi==0.116.1
 uvicorn[standard]==0.35.0
-passlib[bcrypt]
-python-multipart
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.20
 
 # Database
 SQLAlchemy==2.0.42
@@ -21,7 +21,7 @@ orjson==3.11.1
 httpx==0.28.1
 Jinja2==3.1.6
 PyJWT==2.10.1
-tenacity
+tenacity==8.5.0
 # Google Generative AI SDK (if actually used)
 google-genai==1.28.0
 google-auth==2.40.3
