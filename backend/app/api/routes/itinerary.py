@@ -40,6 +40,7 @@ async def generate_route(*, info: UserItineraryLLMInput):
         - location name \
         - short description \
         - a valid image URL that ends in .jpg or .png (not a website or placeholder or https://example.com)."
+    print(info)
     # TODO Make the image generation using unsplash
     response = client.models.generate_content(
         model="gemini-2.0-flash",

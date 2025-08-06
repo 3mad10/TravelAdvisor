@@ -1,33 +1,104 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
+import ItineraryGenerationForm from './components/ItineraryGenerationForm'
+import LoginForm from './components/LoginForm'
+import RegisterForm from './components/RegisterForm'
+import UserItinerariesContainer from './components/UserItinerariesContainer'
+import UserItinerary from './components/UserItinerary'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [generationResponse, setGenerationResponse] = useState([]);
+  const [generationReady, setGenerationReady] = useState(false);
+  const [generationInput, setGenerationInput] = useState();
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [generatedItinerarySaveState, setGeneratedItinerarySaveState] = useState(false);
+
+  function generationResponseCallback(response, generationInput) {
+    setGenerationResponse(response);
+    setGenerationInput(generationInput);
+    console.log(generationResponse);
+    setGenerationReady(true);
+  }
+  
+  function handleLoginCallback() {
+    setShowLoginForm(false);
+    setLoggedIn(true);
+  }
+
+  function handleStetChange(x) {
+    setGeneratedItinerarySaveState(false)
+    setGenerationReady(false);
+  }
+
+  function handleRegisterationCallback() {
+    setShowLoginForm(true);
+    setShowRegisterForm(false);
+  }
+
+  function handleClosureCallback() {
+    setShowLoginForm(false);
+    setShowRegisterForm(false);
+  }
+
+  function handleLogOut() {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  }
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
 
   return (
     <>
+    <div className="flex justify-center items-center min-h-screen w-full">
+      <div className="container px-2 max-w-8xl">
+        <div className="flex flex-col justify-center items-center gap-4 text-2xl">
+          <div className="text-6xl text-cyan-950">Travelling without a plan?</div>
+          <div className="text-2xl text-cyan-700">AI is here to help</div>
+          <ItineraryGenerationForm responseCallback={generationResponseCallback} />
+          {generationReady && (
+            <UserItinerary
+              userSpecificItineraryInfo={generationInput}
+              activities={generationResponse}
+              isSaved={generatedItinerarySaveState}
+              onSave={handleStetChange}
+              onDelete={handleStetChange}
+            />
+          )}
+        </div>
+      </div>
+    </div>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {
+          !loggedIn && <button className='auth-button top-5 right-5' onClick={() => {setShowLoginForm(true)}}>Login</button>
+        }
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        {
+          !loggedIn && <button className='auth-button top-5 right-30' onClick={() => {setShowRegisterForm(true)}}>Register</button>
+        }
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {
+        loggedIn && <UserItinerariesContainer loggInState={loggedIn}/>
+      }
+      {
+        loggedIn && <button className="auth-button top-5 right-5" onClick={() => {handleLogOut()}}>Logout</button>
+      }
+      {showLoginForm && (
+        <LoginForm onLoginSuccess={handleLoginCallback} onClosure={handleClosureCallback}/>
+      )}
+
+      {showRegisterForm && (
+        <RegisterForm onRegisterationSuccess={handleRegisterationCallback} onClosure={handleClosureCallback}/>
+      )}
     </>
   )
 }
