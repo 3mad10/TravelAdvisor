@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Query, Path, status
-from core.config import settings
+from app.core.config import settings
 from uuid import uuid4, UUID
-from core.crud import get_user_by_id, get_itinerary_by_id
-from schemas.itinerary import (
+from app.core.crud import get_user_by_id, get_itinerary_by_id
+from app.schemas.itinerary import (
     Activity,
     ActivityLLMOutput,
     ActivityWithId,
@@ -17,11 +17,11 @@ from schemas.itinerary import (
 from sqlmodel import func, select, delete
 from sqlalchemy.orm import selectinload
 from typing import Annotated
-from schemas.user import User
+from app.schemas.user import User
 from google import genai
 import json
 from google.genai import types
-from api.deps import (
+from app.api.deps import (
     CurrentUser,
     SessionDep,
 )

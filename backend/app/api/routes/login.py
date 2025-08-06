@@ -4,11 +4,11 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
-from core import crud
-from api.deps import SessionDep, CurrentUser
-from core import security
-from core.config import settings
-from schemas.user import Token, UserPublic
+from app.core import crud
+from app.api.deps import SessionDep, CurrentUser
+from app.core import security
+from app.core.config import settings
+from app.schemas.user import Token, UserPublic
 
 router = APIRouter()
 

@@ -8,10 +8,10 @@ from jwt import InvalidTokenError
 from pydantic import ValidationError
 from sqlmodel import Session
 
-from core import security
-from core.config import settings
-from core.db import engine
-from schemas.user import User, TokenPayload
+from app.core import security
+from app.core.config import settings
+from app.core.db import engine
+from app.schemas.user import User, TokenPayload
 
 reusable_oauth2 = OAuth2PasswordBearer(
     tokenUrl="login/auth"

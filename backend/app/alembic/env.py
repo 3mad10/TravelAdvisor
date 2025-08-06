@@ -16,9 +16,9 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 from sqlmodel import SQLModel
-from core.db import engine  # Adjust path to your actual engine
-from schemas.itinerary import *
-from schemas.user import *
+from app.core.db import engine  # Adjust path to your actual engine
+from app.schemas.itinerary import *
+from app.schemas.user import *
 
 target_metadata = SQLModel.metadata
 

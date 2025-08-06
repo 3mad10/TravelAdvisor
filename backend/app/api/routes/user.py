@@ -1,13 +1,13 @@
 from typing import Any
-from core import crud
+from app.core import crud
 
 from fastapi import APIRouter, HTTPException
 
-from api.deps import (
+from app.api.deps import (
     CurrentUser,
     SessionDep,
 )
-from schemas.user import (
+from app.schemas.user import (
     UserCreate,
     UserPublic,
     UserRegister,

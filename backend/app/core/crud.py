@@ -2,9 +2,9 @@ from typing import Any
 
 from sqlmodel import Session, select
 from uuid import UUID, uuid4
-from core.security import get_password_hash, verify_password
-from schemas.user import User, UserCreate, UserUpdate
-from schemas.itinerary import UserItinerary
+from app.core.security import get_password_hash, verify_password
+from app.schemas.user import User, UserCreate, UserUpdate
+from app.schemas.itinerary import UserItinerary
 
 def create_user(*, session: Session, user_create: UserCreate) -> User:
     db_obj = User.model_validate(

@@ -2,12 +2,12 @@ from pydantic import BaseModel, ValidationInfo, field_validator
 from pydantic import Field as PydanticField
 from datetime import date, datetime
 from sqlmodel import Field, Relationship, SQLModel
-from schemas.user import User
+from app.schemas.user import User
 from uuid import UUID, uuid4
 from typing import TYPE_CHECKING, Annotated, List
 
 if TYPE_CHECKING:
-    from schemas.itinerary import UserItinerary
+    from app.schemas.itinerary import UserItinerary
 
 
 class ItinraryActivityLink(SQLModel, table=True):
