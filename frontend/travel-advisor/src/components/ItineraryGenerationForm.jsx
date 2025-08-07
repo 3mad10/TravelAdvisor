@@ -23,6 +23,8 @@ const ItineraryGenerationForm = ({responseCallback}) => {
 
   const getResponse = async (formData) => {
     try {
+      console.log("request : ")
+      console.log(formData)
       const requestObject = {
         'destination':formData.destination,
         'interests':formData.interests.split(","),
@@ -47,7 +49,8 @@ const ItineraryGenerationForm = ({responseCallback}) => {
         {errors.destination && <span className="text-sm">Please add your desination</span>}
       </div>
       <div>
-        <input className="w-full text-sm focus:outline-none border-gray-300 px- border-4 rounded-2xl p-20 text-cyan-700 placeholder-cyan-700 focus:placeholder-cyan-600" placeholder="What are your interests? seperated by comma" {...register("interests", { pattern: /^[A-Za-z\s]+$/i })} />
+        <input className="w-full text-sm focus:outline-none border-gray-300 px- border-4 rounded-2xl p-20 text-cyan-700 placeholder-cyan-700 focus:placeholder-cyan-600" placeholder="What are your interests? seperated by comma" {...register("interests", { pattern: /^[A-Za-z\s\,]+$/i })} />
+        {errors.interests && <span className="text-sm">please add your interests with only characters spaces and commas between them</span>}
       </div>
       <div className="inline w-1/2 text-sm focus:outline-none border-gray-300 rounded-2xl p-20 text-cyan-700 focus:placeholder-cyan-600">
         <label>Start Date</label>

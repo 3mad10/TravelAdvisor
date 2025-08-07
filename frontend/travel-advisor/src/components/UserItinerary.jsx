@@ -3,7 +3,7 @@ import './Itinerary.css';
 import PublicItinerary from "./PublicItinerary";
 import api from "../api";
 
-const UserItinerary = ({activities, userSpecificItineraryInfo, isSaved, onSave, onDelete}) => {
+const UserItinerary = ({activities, userSpecificItineraryInfo, isSaved, onSave, onDelete, isLoggedIn}) => {
     const [errorState, setErrorState] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
 
@@ -37,17 +37,26 @@ const UserItinerary = ({activities, userSpecificItineraryInfo, isSaved, onSave, 
                         }
                     });
                     setErrorState(false);
+                    setErrorMessage("");
                     onSave(userSpecificItineraryInfo.id);
             } catch(error) {
-                if(error.status===401) {
+                if(error.status===403) {
                     setErrorState(true);
-                    setErrorMessage("Login to be able to save a new plan")
+                    setErrorMessage("Login to be able to save a new plan");
                 }
             }
 
         }
     }
-    
+
+    useEffect( () => {
+        console.log("entered useEffect")
+        if(isLoggedIn && errorState) {
+            setErrorState(false);
+            setErrorMessage("");
+        }
+    }, [isLoggedIn]);
+
     if(activities && userSpecificItineraryInfo) {
         return (
             <div className="flex flex-col justify-center shadow-2xl pb-2 border-cyan-300 rounded-md border-b-2 shadow-2xl">
@@ -65,7 +74,7 @@ const UserItinerary = ({activities, userSpecificItineraryInfo, isSaved, onSave, 
                     {!isSaved && (<button className="w-full rounded-2xl cursor-pointer hover:bg-cyan-500 border-2 hover:text-white text-cyan-500 border-cyan-500" onClick={saveHandler}>Save plan</button>)}
                 </div>
                 <div>
-                    {errorState && (<div style={{ color: 'red' }}>{errorMessage}</div>)}
+                    {errorState && (<div className="text-red-500 text-sm">{errorMessage}</div>)}
                 </div>
             </div>
         )   
