@@ -4,8 +4,7 @@ import UserItinerary from "./UserItinerary"
 import api from "../api";
 import axios from "axios";
 
-const UserItinerariesContainer = ({loggInState}) => {
-    const [userItinrariesResponseState, setUserItinrariesResponseState] = useState(false);
+const UserItinerariesContainer = ({loggInState, refreshFlagFromApp}) => {
     const [publicItinrariesResponseState, setPublicItinrariesResponseState] = useState(false);
     const [userItinraries, setUserItinraries] = useState([]);
     const [publicItinraries, setPublicItinraries] = useState([]);
@@ -87,11 +86,11 @@ const UserItinerariesContainer = ({loggInState}) => {
                 });
             }
         }, 
-        [loggInState, refreshFlag]
+        [loggInState, refreshFlag, refreshFlagFromApp]
     )
     
     return (
-        <div className="border-l-2 shadow-cyan-700 border-t-2 fixed top-20 right-10 h-screen overflow-y-auto w-[350px] bg-white border-gray-200 shadow-2xl p-4">
+        <div className="border-l-2 shadow-cyan-700 border-t-2 fixed top-20 right-5 h-screen overflow-y-auto w-[350px] bg-white border-gray-200 shadow-2xl p-4">
             <div className="text-cyan-900 text-2xl font-semibold text-center mb-4">Saved Planes</div>
             {publicItinrariesResponseState && publicItinraries.map(itinerary => {
                 const userSpecificItinerary = userItinraries.find(itin => itin.itinerary_id === itinerary.id);
@@ -106,6 +105,7 @@ const UserItinerariesContainer = ({loggInState}) => {
                         activities={itinerary.activities} 
                         onSave={saveHandler}
                         onDelete={deleteHandler}
+                        isLoggedIn={loggInState}
                     />
                 );
             })}

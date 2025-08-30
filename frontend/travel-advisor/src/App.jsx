@@ -13,7 +13,9 @@ function App() {
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [savedPlacesContainerRefresh, setSavedPlacesContainerRefresh] = useState(false);
   const [generatedItinerarySaveState, setGeneratedItinerarySaveState] = useState(false);
+  const [generatedItiniraryID, setGeneratedItiniraryID] = useState(0);
 
   function generationResponseCallback(response, generationInput) {
     setGenerationResponse(response);
@@ -27,9 +29,10 @@ function App() {
     setLoggedIn(true);
   }
 
-  function handleStetChange(x) {
-    setGeneratedItinerarySaveState(false)
+  function handleStateChange(id) {
+    setGeneratedItinerarySaveState(false);
     setGenerationReady(false);
+    setSavedPlacesContainerRefresh(prevState => !prevState);
   }
 
   function handleRegisterationCallback() {
@@ -59,7 +62,7 @@ function App() {
   return (
     <>
     <div className="flex justify-center items-center min-h-screen w-full">
-      <div className="container px-2 max-w-8xl">
+      <div className="px-2 max-w-8xl">
         <div className="flex flex-col justify-center items-center gap-4 text-2xl">
           <div className="text-6xl text-cyan-950">Travelling without a plan?</div>
           <div className="text-2xl text-cyan-700">AI is here to help</div>
@@ -69,8 +72,8 @@ function App() {
               userSpecificItineraryInfo={generationInput}
               activities={generationResponse}
               isSaved={generatedItinerarySaveState}
-              onSave={handleStetChange}
-              onDelete={handleStetChange}
+              onSave={handleStateChange}
+              isLoggedIn={loggedIn}
             />
           )}
         </div>
@@ -87,7 +90,7 @@ function App() {
         }
       </div>
       {
-        loggedIn && <UserItinerariesContainer loggInState={loggedIn}/>
+        loggedIn && <UserItinerariesContainer loggInState={loggedIn} refreshFlagFromApp={savedPlacesContainerRefresh}/>
       }
       {
         loggedIn && <button className="auth-button top-5 right-5" onClick={() => {handleLogOut()}}>Logout</button>

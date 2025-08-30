@@ -1,8 +1,8 @@
 import { React, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from 'react-datepicker';
-import './Itinerary.css';
 import api from "../api";
+import './Itinerary.css';
 const ItineraryGenerationForm = ({responseCallback}) => {
   const {
         register,
@@ -23,6 +23,8 @@ const ItineraryGenerationForm = ({responseCallback}) => {
 
   const getResponse = async (formData) => {
     try {
+      console.log("request : ")
+      console.log(formData)
       const requestObject = {
         'destination':formData.destination,
         'interests':formData.interests.split(","),
@@ -43,13 +45,14 @@ const ItineraryGenerationForm = ({responseCallback}) => {
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(getResponse)}>
       <div>
-        <input className="w-full text-xl focus:outline-none border-gray-300 px- border-4 rounded-2xl p-20 text-cyan-700 placeholder-cyan-700 focus:placeholder-cyan-600" placeholder="Where are you going?" {...register("destination", { required: true, maxLength: 256 })} />
-        {errors.destination && <span className="text-sm">Please add your desination</span>}
+        <input className="w-full text-lg focus:outline-none border-gray-300 border-4 rounded-2xl text-cyan-700 placeholder-cyan-700 focus:placeholder-cyan-600" style={{paddingLeft:'1rem'}} placeholder="Where are you going?" {...register("destination", { required: true, maxLength: 512 })} />
+        {errors.destination && <span className="text-sm text-red-500">Please add your desination</span>}
       </div>
       <div>
-        <input className="w-full text-sm focus:outline-none border-gray-300 px- border-4 rounded-2xl p-20 text-cyan-700 placeholder-cyan-700 focus:placeholder-cyan-600" placeholder="What are your interests? seperated by comma" {...register("interests", { pattern: /^[A-Za-z\s]+$/i })} />
+        <input className="w-full text-sm focus:outline-none border-gray-300 border-4 rounded-2xl p-3 text-cyan-700 placeholder-cyan-700 focus:placeholder-cyan-600" style={{paddingLeft:'1rem'}} placeholder="What are your interests? seperated by comma" {...register("interests", { pattern: /^[A-Za-z\s\,]+$/i })} />
+        {errors.interests && <span className="text-sm text-red-500">please add your interests with only characters spaces and commas between them</span>}
       </div>
-      <div className="inline w-1/2 text-sm focus:outline-none border-gray-300 rounded-2xl p-20 text-cyan-700 focus:placeholder-cyan-600">
+      <div className="w-1/2 text-sm border-0 rounded-2xl text-cyan-700 focus:outline-violet-200 focus:border-b-blue-700">
         <label>Start Date</label>
         <Controller
           control={control}
@@ -57,6 +60,7 @@ const ItineraryGenerationForm = ({responseCallback}) => {
           defaultValue={new Date()}
           render={({ field }) => (
             <DatePicker
+              className="w-full text-sm focus:outline-none text-cyan-700"
               showIcon
               selected={field.value}
               onChange={(date) => field.onChange(date)}
@@ -88,7 +92,7 @@ const ItineraryGenerationForm = ({responseCallback}) => {
         />
         {errors.startDate && <span>{errors.startDate.message}</span>}
       </div>
-      <div className="inline w-1/2 text-sm focus:outline-none border-gray-300 rounded-2xl p-20 text-cyan-700 focus:placeholder-cyan-600">
+      <div className="w-1/2 text-sm focus:outline-none border-gray-300 rounded-2xl p-20 text-cyan-700">
         <label>End Date</label>
         <Controller
           control={control}
@@ -96,6 +100,7 @@ const ItineraryGenerationForm = ({responseCallback}) => {
           defaultValue={new Date()}
           render={({ field }) => (
             <DatePicker
+              className="w-full text-sm focus:outline-none text-cyan-700"
               showIcon
               selected={field.value}
               onChange={(date) => field.onChange(date)}
