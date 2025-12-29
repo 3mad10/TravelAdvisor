@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ValidationInfo, field_validator
 from pydantic import Field as PydanticField
-from datetime import date, datetime
+from datetime import date
 from sqlmodel import Field, Relationship, SQLModel
 from app.schemas.user import User
 from uuid import UUID, uuid4

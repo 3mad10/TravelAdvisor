@@ -7,7 +7,6 @@ from pydantic import (
 )
 
 
-
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         # Use top level .env file (one level above ./backend/)
@@ -16,6 +15,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
     GEMINI_API_KEY: str
+    SECRET_KEY: str
     FIRST_SUPERUSER: EmailStr
     FIRST_SUPERUSER_PASSWORD: str
 
@@ -28,7 +28,6 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
 
-    SECRET_KEY: str
 
     @computed_field
     @property
