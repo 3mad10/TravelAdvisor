@@ -13,10 +13,9 @@ app.include_router(itinerary.router)
 app.include_router(login.router)
 app.include_router(user.router)
 
-# TODO add extra origins and move to settings
 app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:3000", "http://localhost:80"],
+        allow_origins=["http://localhost:8080", "http://localhost:3000", "http://localhost:80","https://traveladvisorfrontend-production.up.railway.app"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
